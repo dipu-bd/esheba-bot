@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Helper methods used in crawling"""
-import io
 import json
-from PIL import Image
 from os import path, makedirs
 from splinter import Browser
-import tesserocr as ocr
+from captcha_solver import CaptchaSolver
 
 CHROME_DRIVER = path.join('lib', 'chromedriver')
 
@@ -19,13 +17,7 @@ def get_browser():
                    executable_path=CHROME_DRIVER)
 # end def
 
-def solve_captcha(image_bytes):
+def solve_captcha(image):
     '''get captcha code from image url'''
-    image = Image.open(io.BytesIO(image_bytes))
-    api = ocr.PyTessBaseAPI()
-    api.SetVariable("tessedit_char_whitelist", "0123456789")
-    api.SetPageSegMode(ocr.PSM.SINGLE_WORD)
-    api.SetImage(image)
-    api.Recognize()
-    return api.GetUTF8Text()
+    return CaptchaSolver('browser').solve_captcha(image)
 # end def
