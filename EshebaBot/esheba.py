@@ -11,7 +11,7 @@ import json
 import urllib3
 import requests
 from os import path
-from bs4 import BeautifulSoup as Soup
+from bs4 import BeautifulSoup
 from .helper import get_browser, solve_captcha
 
 
@@ -32,9 +32,15 @@ class EshebaBot:
     def start(self):
         '''start crawling'''
         session = requests.Session()
-        self.get_tokens(session)
-        self.solve_captcha()
-        self.login(session)
+        session.headers['User-Agent'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.167 Safari/537.36'
+        try:
+            self.get_tokens(session)
+            self.solve_captcha()
+            self.login(session)
+            self.get_personal_info(session)
+        finally:
+            session.close()
+        # end try
     # end def
 
     def get_tokens(self, session):
@@ -44,7 +50,7 @@ class EshebaBot:
         r = session.get(url, verify=False)
         cookies = session.cookies.get_dict()
         self.token = cookies['PHPSESSID']
-        soup = Soup(r.content, 'lxml')
+        soup = BeautifulSoup(r.content, 'lxml')
         captcha = soup.select_one('img#captcha')['src']
         self.captcha = path.basename(captcha).strip('.png')
         print('Session ID =', self.token)
@@ -70,15 +76,15 @@ class EshebaBot:
             'captcha[id]': self.captcha,
             'signin': 'SIGN-IN'
         }
-        headers = {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.167 Safari/537.36'
-        }
-        cookies = {
-            'PHPSESSID': self.token
-        }
-        r = session.post(url, data=data, headers=headers, cookies=cookies)
-        soup = Soup(r.content, 'lxml')
+        headers = { 'Content-Type': 'application/x-www-form-urlencoded' }
+        session.post(url, data=data, headers=headers)
+    # end def
+
+    def get_personal_info(self, session):
+        '''gets the personal informations'''
+        url = 'https://www.esheba.cnsbd.com/account/index'
+        r = session.get(url, verify=False)
+        soup = BeautifulSoup(r.content, 'lxml')
         table_headers = soup.select('#dashboard .table .home th')
         table_bodies = soup.select('#dashboard .table .home td')
         print('\n--- Personal Informations ---')
