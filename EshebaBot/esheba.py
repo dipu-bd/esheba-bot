@@ -12,7 +12,7 @@ import urllib3
 import requests
 from os import path
 from bs4 import BeautifulSoup
-from .helper import get_browser, solve_captcha
+from .helper import solve_captcha
 
 
 class EshebaBot:
@@ -36,8 +36,9 @@ class EshebaBot:
         try:
             self.get_tokens(session)
             self.solve_captcha()
-            self.login(session)
-            self.get_personal_info(session)
+            if self.login(session):
+                self.get_personal_info(session)
+            # end if
         finally:
             session.close()
         # end try
@@ -77,7 +78,14 @@ class EshebaBot:
             'signin': 'SIGN-IN'
         }
         headers = { 'Content-Type': 'application/x-www-form-urlencoded' }
-        session.post(url, data=data, headers=headers)
+        r = session.post(url, data=data, headers=headers)
+        soup = BeautifulSoup(r.content, 'lxml')
+        errors = soup.select('#messages .error-msg')
+        errors = [x.text.strip() for x in errors if x.text.strip()]
+        if len(errors):
+            print('Error: ', '; '.join(errors))
+            return False
+        # end if
     # end def
 
     def get_personal_info(self, session):
