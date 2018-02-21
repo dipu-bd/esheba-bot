@@ -34,7 +34,7 @@ class EshebaBot:
         session = requests.Session()
         self.get_tokens(session)
         self.solve_captcha()
-        # self.login(session)
+        self.login(session)
     # end def
 
     def get_tokens(self, session):
@@ -78,7 +78,13 @@ class EshebaBot:
             'PHPSESSID': self.token
         }
         r = session.post(url, data=data, headers=headers, cookies=cookies)
-        print(r.content)
+        soup = Soup(r.content, 'lxml')
+        table_headers = soup.select('#dashboard .table .home th')
+        table_bodies = soup.select('#dashboard .table .home td')
+        print('\n--- Personal Informations ---')
+        for i in range(min(len(table_bodies), len(table_headers))):
+            print(' ', table_headers[i].text, '=', table_bodies[i].text)
+        # end for
     # end def
 
 # end class
