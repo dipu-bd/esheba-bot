@@ -4,8 +4,6 @@ Auto crawl train route and other information from https://www.esheba.cnsbd.com
 
 ## Install Requirements
 
-- Selenium: `pip install -U selenium`
-- Splinter: `pip install -U splinter`
 - BeautifulSoup4: `pip install -U beautifulsoup4`
 - CaptchaSolver: `pip install -U captcha_solver`
 
