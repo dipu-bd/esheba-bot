@@ -6,7 +6,7 @@ package esheba;
 |              Service               |
 \*----------------------------------*/
 
-service DocDB {
+service BotService {
   // Start the session
   rpc StartSession(EmptyRequest) returns (SessionStartResponse) {}
 
