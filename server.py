@@ -21,6 +21,17 @@ class BotService(service_pb2_grpc.BotServiceServicer):
         )
     # end def
 
+    def CloseSession(self, request, context):
+        """Closes a session
+        """
+        session = request.session
+        if session not in self.bots:
+            return bot_pb.StatusResponse(status=500, message='Invalid session')
+        # end if
+        self.bots[session].close_session()
+        return bot_pb.StatusResponse(status=200, message='OK')
+    # end def
+
     def Login(self, request, context):
         session = request.session
         if session not in self.bots:

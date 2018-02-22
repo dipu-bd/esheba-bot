@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 """Test grpc modules"""
 import sys
+import time
 import grpc
 import requests
 from service import service_pb2_grpc
@@ -44,6 +45,10 @@ def run_tests(usermail=None, password=None):
         print('Personal Informations:\n')
         print(r)
     # end if
+
+    # close session
+    r = stub.CloseSession(bot_pb.SessionRequest(session=session))
+    print('Close session:', r.status, r.message)
 
     print()
     print('All tests passed.')
