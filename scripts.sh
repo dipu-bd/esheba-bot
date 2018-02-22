@@ -1,5 +1,5 @@
-SRC_DIR="protos"
-DST_DIR="grpc"
+SRC_DIR="./protos"
+DST_DIR="./grpc"
 
 if [ $1 = "build" ]
 then
