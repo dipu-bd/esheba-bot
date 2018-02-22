@@ -2,6 +2,12 @@
 
 Auto crawl train route and other information from https://www.esheba.cnsbd.com
 
+## Docker
+
+Run `sh build.sh docker`
+
+The use `python . --tests` to check the running docker container.
+
 ## Install Requirements
 
 - GRPC: `pip install -U grpcio`
@@ -13,7 +19,7 @@ Auto crawl train route and other information from https://www.esheba.cnsbd.com
 
 - Open terminal in the project directory.
 
-- Build GRPC modules: `sh scripts.sh build`
+- Build GRPC modules: `sh build.sh`
 
 - Type `python .` to display this help:
 
