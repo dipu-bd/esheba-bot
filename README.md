@@ -2,26 +2,28 @@
 
 Auto crawl train route and other information from https://www.esheba.cnsbd.com
 
-## Docker
-
-Run `sh build.sh docker`
-
-The use `python . --tests` to check the running docker container.
-
 ## Install Requirements
 
-- GRPC: `pip install -U grpcio`
-- GRPC Tools: `pip install -U grpcio-tools`
+- lxml: `pip install -U lxml`
+- urllib3: `pip install -U urllib3`
+- Requests: `pip install -U requests`
 - BeautifulSoup4: `pip install -U beautifulsoup4`
-- CaptchaSolver: `pip install -U captcha_solver`
+- GRPC Tools: `pip install -U grpcio-tools`
+- GRPC: `pip install -U grpcio`
+
+- Docker: https://docs.docker.com/install/linux/docker-ce/ubuntu/
+
+## Build
+
+- To build grpc files: `sh build.sh`
+- To and run docker: `sh build.sh docker`
+- Stop docker: `sh build.sh _docker`
 
 ## Usage
 
 - Open terminal in the project directory.
-
 - Build GRPC modules: `sh build.sh`
-
-- Type `python .` to display this help:
+- Run `python .`
 
 ```bash
 EshebaBot:
@@ -43,7 +45,11 @@ Run `python . --server` to start the server.
 
 ### Test the server
 
-Run `python . --test <your email> <your password>` to test the server
+Run `python . --test-grpc` to test the server
+
+### Test methods directly
+
+Run `python . --test` to test directly without a server
 
 ## Disclaimer
 
