@@ -48,7 +48,7 @@ def direct_test():
 
 def run_tests():
     '''Runs the grpc server'''
-    channel = grpc.insecure_channel('dipu.space:5000')
+    channel = grpc.insecure_channel('localhost:5000')
     stub = service_pb2_grpc.BotServiceStub(channel)
 
     # start session
