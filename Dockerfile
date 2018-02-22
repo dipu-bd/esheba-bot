@@ -1,5 +1,9 @@
 FROM python:3.6-alpine
 
+# Install tools
+RUN apk add --update alpine-sdk
+
+# Install modules
 RUN pip install -U grpcio
 RUN pip install -U grpcio-tools
 RUN pip install -U beautifulsoup4
