@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package esheba;
+
+service DocDB {
+  // Start the session
+  rpc StartSession(EmptyRequest) returns (SessionStartResponse) {}
+
+  // Login to current session
+  rpc Login(LoginRequest) returns (StatusResponse) {}
+
+  // Check if session is valid
+  rpc CheckSession(SessionRequest) returns (StatusResponse) {}
+
+  // Get personal informations
+  rpc GetPersonalInfos(SessionRequest) returns (PersonalInformations) {}
+}
+
+/*----------------------------------*\
+|              Requests              |
+\*----------------------------------*/
+
+message EmptyRequest {
+  // empty
+}
+
+message LoginRequest {
+  string session = 1;
+  string usermail = 2;
+  string password = 3;
+  string captcha_url = 4;
+  string security_code = 5;
+}
+
+message SessionRequest {
+  string session = 1;
+}
+
+/*----------------------------------*\
+|              Responses             |
+\*----------------------------------*/
+
+message SessionStartResponse {
+  string session = 1;
+  string captcha_url = 2;
+}
+
+message StatusResponse {
+  int32 status = 1;
+  string message = 2;
+  string session = 3;
+}
+
+message PersonalInformations {
+  string Name = 1;
+  string EmailAddress = 2;
+  string Address = 3;
+  string PhoneNumber = 4;
+}
