@@ -2,6 +2,10 @@ syntax = "proto3";
 
 package esheba;
 
+/*----------------------------------*\
+|              Service               |
+\*----------------------------------*/
+
 service DocDB {
   // Start the session
   rpc StartSession(EmptyRequest) returns (SessionStartResponse) {}

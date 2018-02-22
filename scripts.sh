@@ -1,8 +1,8 @@
-if [ $1 = 'build' ]
+if [ $1 = "build" ]
 then
-  echo 'Building proto...'
-
-  python -m grpc_tools.protoc -I protos --python_out=./protos --grpc_python_out=. ./protos/service.proto
-
+  echo Building proto...
+  python -m grpc_tools.protoc --proto_path="protos" --python_out="EshebaBot" "protos/service.proto"
+  echo Done.
+  echo
 fi
 
