@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Implements grpc modules"""
+import time
 import grpc
 import service.service_pb2 as bot_pb
 from service import service_pb2_grpc
@@ -79,6 +80,9 @@ def run_server():
     server.add_insecure_port('[::]:' + port)
     server.start()
     print('Server running at http://localhost:%s' % port)
+    while True:
+        time.sleep(100)
+    # end white
     input('Press enter to stop the server...')
     server.stop(True)
 # end def
