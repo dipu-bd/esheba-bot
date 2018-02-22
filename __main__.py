@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 """Main point of execution"""
 import sys
+from tests import run_tests
 from server import run_server
 from EshebaBot.esheba import EshebaBot
 
@@ -15,14 +16,13 @@ def main():
     if sys.argv[1] == '--server':
         run_server()
     elif sys.argv[1] == '--test':
-        print('no yet implemented')
-        pass
+        run_tests()
     elif len(sys.argv) < 3:
         return show_help()
     else:
         email = sys.argv[1]
         password = sys.argv[2]
-        EshebaBot(email, password).start()
+        EshebaBot().test(email, password)
     # end if
 
 # end def
