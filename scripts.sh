@@ -1,5 +1,5 @@
 SRC_DIR="./protos"
-DST_DIR="./grpc"
+DST_DIR="./service"
 
 if [ $1 = "build" ]
 then
@@ -11,6 +11,7 @@ then
          --python_out="$DST_DIR" \
          --grpc_python_out="$DST_DIR" \
         "$SRC_DIR/service.proto"
+    sed -i 's/import service_pb2/from . import service_pb2/gi' "$DST_DIR/service_pb2_grpc.py"
     echo Done!
     echo
 fi
