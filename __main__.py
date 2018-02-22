@@ -2,47 +2,31 @@
 # -*- coding: utf-8 -*-
 """Main point of execution"""
 import sys
-from tests import run_tests
 from server import run_server
-from EshebaBot.esheba import EshebaBot
-
-
-def main():
-    '''main method to call'''
-    if len(sys.argv) < 2:
-        return show_help()
-    # end if
-
-    if sys.argv[1] == '--server':
-        run_server()
-    elif sys.argv[1] == '--test':
-        email = sys.argv[2] if len(sys.argv) > 2 else None
-        password = sys.argv[3] if len(sys.argv) > 3 else None
-        run_tests(email, password)
-    elif len(sys.argv) < 3:
-        return show_help()
-    else:
-        email = sys.argv[1]
-        password = sys.argv[2]
-        EshebaBot().test(email, password)
-    # end if
-
-# end def
+from tests import run_tests, direct_test
 
 
 def show_help():
     '''displays help'''
     print('EshebaBot:')
-    print('  python . <user-email> <password>')
-    print('  python . --server')
-    print('  python . --test [<user-mail>] [<password>]')
+    print('  python . [options]')
     print()
     print('OPTIONS:')
-    print(' user-email Email of the user to login.')
-    print(' password   Password to login')
-    print(' --server    Starts the grpc server')
-    print(' --test      Runs grpc test client')
+    print(' -S, --server        Run the server')
+    print(' -T, --test-grpc     Test running server')
+    print(' -t, --test          Test methods directly')
     print()
 # end def
 
-main()
+'''main method to call'''
+if len(sys.argv) < 2:
+    show_help()
+elif sys.argv[1] in ['--server', '-S']:
+    run_server()
+elif sys.argv[1] in ['--test', '-t']:
+    direct_test()
+elif sys.argv[1] in ['--test-grpc', '-T']:
+    run_tests()
+else:
+    show_help()
+# end if
