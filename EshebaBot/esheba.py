@@ -36,9 +36,8 @@ class EshebaBot:
         try:
             self.get_tokens(session)
             self.solve_captcha()
-            if self.login(session):
-                self.get_personal_info(session)
-            # end if
+            self.login(session)
+            self.get_personal_info(session)
         finally:
             session.close()
         # end try
