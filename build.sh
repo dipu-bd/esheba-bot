@@ -26,7 +26,7 @@ elif [ $1 = 'docker' ]
 then
 
     echo =========== Remove unused docker files ===========
-    sudo docker images -q | sudo xargs docker rmi
+    sudo docker images -q | xargs sudo docker rmi
 
     echo =========== Building Docker ===========
     sudo docker build -t $DOCKER_NAME .
@@ -38,11 +38,11 @@ then
     echo =========== Running docker ===========
     sudo docker run -d -p 5000:5000 --name $DOCKER_NAME $DOCKER_NAME
 
-elif [ $1 = '~docker' ]
+elif [ $1 = '_docker' ]
 then
 
     echo =========== Remove unused docker files ===========
-    sudo docker images -q | sudo xargs docker rmi
+    sudo docker images -q | xargs sudo docker rmi
 
     echo =========== Stopping previous service ===========
     sudo docker stop $DOCKER_NAME
