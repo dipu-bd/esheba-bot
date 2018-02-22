@@ -10,6 +10,9 @@ service BotService {
   // Start the session
   rpc StartSession(EmptyRequest) returns (SessionStartResponse) {}
 
+  // Closes a session
+  rpc CloseSession(SessionRequest) returns (StatusResponse) {}
+
   // Login to current session
   rpc Login(LoginRequest) returns (StatusResponse) {}
 
