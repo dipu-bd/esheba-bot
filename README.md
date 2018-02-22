@@ -13,12 +13,12 @@ Auto crawl train route and other information from https://www.esheba.cnsbd.com
 
 - Open terminal in the project directory.
 
-- Build grpc modules:
-```bash
-sh scripts.sh build
-```
+- Build GRPC modules:
+
+`sh scripts.sh build`
 
 - Type `python .` to display this help:
+
 ```bash
 EshebaBot:
   python . <user-email> <password>
