@@ -32,7 +32,6 @@ message LoginRequest {
   string session = 1;
   string usermail = 2;
   string password = 3;
-  string captcha_url = 4;
   string security_code = 5;
 }
 
