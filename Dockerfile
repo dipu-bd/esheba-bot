@@ -20,7 +20,7 @@ WORKDIR /usr/src/app
 COPY . .
 
 # Build grpc
-RUN sh scripts.sh build
+RUN sh build.sh
 
 # Expose the port
 EXPOSE 5000

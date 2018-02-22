@@ -6,7 +6,8 @@ DOCKER_NAME="esheba-bot"
 
 if [ ! $1 ]
 then
-    echo Creating $DST_DIR...
+
+    echo Creating destination folder... [$DST_DIR]
     mkdir -p "$DST_DIR"
     touch "$DST_DIR/__init__.py"
 
@@ -24,19 +25,26 @@ then
 elif [ $1 = 'docker' ]
 then
 
-    echo =========== Grant access to root ===========
-    sudo su
-
     echo =========== Remove unused docker files ===========
-    echo docker images -q | xargs docker rmi
+    sudo docker images -q | sudo xargs docker rmi
 
     echo =========== Building Docker ===========
-    docker build -t $DOCKER_NAME .
+    sudo docker build -t $DOCKER_NAME .
 
     echo =========== Stopping previous service ===========
-    docker stop $DOCKER_NAME
-    docker rm $DOCKER_NAME
+    sudo docker stop $DOCKER_NAME
+    sudo docker rm $DOCKER_NAME
 
     echo =========== Running docker ===========
-    docker run -d -p 5000:5000 --name $DOCKER_NAME $DOCKER_NAME
+    sudo docker run -d -p 5000:5000 --name $DOCKER_NAME $DOCKER_NAME
+
+elif [ $1 = '~docker' ]
+then
+
+    echo =========== Remove unused docker files ===========
+    sudo docker images -q | sudo xargs docker rmi
+
+    echo =========== Stopping previous service ===========
+    sudo docker stop $DOCKER_NAME
+
 fi
