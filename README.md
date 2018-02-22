@@ -11,7 +11,15 @@ Auto crawl train route and other information from https://www.esheba.cnsbd.com
 
 ## Usage
 
-In the project directory open terminal and write `python .` to display help.
+Open terminal in the project directory.
+
+- Build grpc modules:
+
+```bash
+sh scripts.sh build
+```
+
+- Type `python .` to display this help:
 
 ```bash
 EshebaBot:
