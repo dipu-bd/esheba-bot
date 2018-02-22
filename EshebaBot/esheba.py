@@ -41,7 +41,7 @@ class EshebaBot:
     # end def
 
     def get_captcha_url(self):
-        '''Generate text from captcha'''
+        '''generate text from captcha'''
         if not self.captcha:
             raise Exception('No captcha found!')
         else:
@@ -68,10 +68,11 @@ class EshebaBot:
     # end def
 
     def check_session(self):
+        '''check whether the session is logged in'''
         url = 'https://www.esheba.cnsbd.com/account/index'
         r = self.session.get(url, verify=False)
         soup = BeautifulSoup(r.content, 'lxml')
-        captcha = soup.select('img#captcha')['src']
+        captcha = soup.select('img#captcha')
         return len(captcha) == 0
     # end def
 
@@ -111,6 +112,8 @@ class EshebaBot:
         print('Login response =', r)
         r = self.get_personal_info()
         print('Personal informations =', r)
+        r = self.check_session()
+        print('Session check =', r)
     # end def
 # end class
 
