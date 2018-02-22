@@ -16,7 +16,9 @@ def main():
     if sys.argv[1] == '--server':
         run_server()
     elif sys.argv[1] == '--test':
-        run_tests()
+        email = sys.argv[2] if len(sys.argv) > 2 else None
+        password = sys.argv[3] if len(sys.argv) > 3 else None
+        run_tests(email, password)
     elif len(sys.argv) < 3:
         return show_help()
     else:
@@ -33,16 +35,13 @@ def show_help():
     print('EshebaBot:')
     print('  python . <user-email> <password>')
     print('  python . --server')
-    print('  python . --test')
+    print('  python . --test [<user-mail>] [<password>]')
     print()
     print('OPTIONS:')
-    print(' user-email* Email of the user to login.')
-    print(' password*   Password to login')
+    print(' user-email Email of the user to login.')
+    print(' password   Password to login')
     print(' --server    Starts the grpc server')
     print(' --test      Runs grpc test client')
-    print()
-    print('HINTS:')
-    print('- * marked params are required')
     print()
 # end def
 
