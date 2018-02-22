@@ -8,15 +8,19 @@ information about train routes and timetable.
 import re
 import sys
 import json
+import time
 import urllib3
 import requests
 from os import path
 from bs4 import BeautifulSoup
 from .helper import solve_captcha
+from concurrent.futures import ThreadPoolExecutor
 
 
 class EshebaBot:
     '''Create REST bot to esheba'''
+
+    executor = ThreadPoolExecutor(max_workers=1)
 
     def __init__(self):
         urllib3.disable_warnings()
@@ -37,7 +41,17 @@ class EshebaBot:
 
     def close_session(self):
         '''stops the session'''
+        self.logout()
         self.session.close()
+        self.executor.shutdown(wait=False)
+    # end def
+
+    def keep_alive(self):
+        '''continous request every minutes to keep the session alive'''
+        time.sleep(30)
+        while self.check_session():
+            time.sleep(60)
+        # end while
     # end def
 
     def get_captcha_url(self):
@@ -64,7 +78,19 @@ class EshebaBot:
         soup = BeautifulSoup(r.content, 'lxml')
         errors = soup.select('#messages .error-msg')
         errors = [x.text.strip() for x in errors if x.text.strip()]
+        if not errors:
+            # start keep-alive checker
+            self.executor.submit(self.keep_alive)
+        # end if
         return '\n'.join(errors).strip()
+    # end def
+
+    def logout(self):
+        url = 'https://www.esheba.cnsbd.com/index/signout'
+        r = self.session.get(url, verify=False)
+        soup = BeautifulSoup(r.content, 'lxml')
+        captcha = soup.select('img#captcha')
+        return len(captcha) > 0
     # end def
 
     def check_session(self):
@@ -101,7 +127,7 @@ class EshebaBot:
 
     def test(self, usermail, password):
         '''test if the service works'''
-        print('Starting session')
+        print('Starting Session')
         self.start_session()
         print('Session ID =', self.token)
         print('Captcha =', self.captcha)
@@ -109,11 +135,13 @@ class EshebaBot:
         r = self.session.get(captcha_url, verify=False)
         security_code = solve_captcha(r.content)
         r = self.login(usermail, password, security_code)
-        print('Login response =', r)
+        print('Login response =', r if r else 'No Errors')
         r = self.get_personal_info()
         print('Personal informations =', r)
         r = self.check_session()
         print('Session check =', r)
+        self.close_session()
+        print('Session closed')
     # end def
 # end class
 
