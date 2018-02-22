@@ -13,7 +13,6 @@ import urllib3
 import requests
 from os import path
 from bs4 import BeautifulSoup
-from .helper import solve_captcha
 from concurrent.futures import ThreadPoolExecutor
 
 
@@ -124,30 +123,4 @@ class EshebaBot:
         # end for
         return data
     # end def
-
-    def test(self, usermail, password):
-        '''test if the service works'''
-        print('Starting Session')
-        self.start_session()
-        print('Session ID =', self.token)
-        print('Captcha =', self.captcha)
-        captcha_url = self.get_captcha_url()
-        r = self.session.get(captcha_url, verify=False)
-        security_code = solve_captcha(r.content)
-        r = self.login(usermail, password, security_code)
-        print('Login response =', r if r else 'No Errors')
-        r = self.get_personal_info()
-        print('Personal informations =', r)
-        r = self.check_session()
-        print('Session check =', r)
-        self.close_session()
-        print('Session closed')
-    # end def
 # end class
-
-if __name__ == '__main__':
-    EshebaBot().test(
-        usermail=sys.argv[1],
-        password=sys.argv[2]
-    )
-# end if
