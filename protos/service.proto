@@ -51,7 +51,6 @@ message SessionStartResponse {
 message StatusResponse {
   int32 status = 1;
   string message = 2;
-  string session = 3;
 }
 
 message PersonalInformations {
