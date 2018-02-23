@@ -9,7 +9,6 @@ import re
 import sys
 import json
 import time
-import urllib3
 import requests
 from os import path
 from bs4 import BeautifulSoup
@@ -19,11 +18,10 @@ from concurrent.futures import ThreadPoolExecutor
 class EshebaBot:
     '''Create REST bot to esheba'''
 
-    executor = ThreadPoolExecutor(max_workers=1)
-
     def __init__(self):
-        urllib3.disable_warnings()
+        requests.urllib3.disable_warnings()
         self.session = requests.Session()
+        self.executor = ThreadPoolExecutor(max_workers=1)
         self.session.headers['User-Agent'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.167 Safari/537.36'
     # end def
 
