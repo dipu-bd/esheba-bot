@@ -30,6 +30,7 @@ class BotService(service_pb2_grpc.BotServiceServicer):
             return bot_pb.StatusResponse(status=500, message='Invalid session')
         # end if
         self.bots[session].close_session()
+        self.bots.pop(session)
         return bot_pb.StatusResponse(status=200, message='OK')
     # end def
 
